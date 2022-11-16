@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:weather/screens/search_screen.dart';
+import 'package:weather/screens/search/search_screen.dart';
 import 'package:weather/utils/colors.dart';
 import 'package:weather/utils/icons.dart';
 

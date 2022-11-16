@@ -6,6 +6,8 @@ class MyIcons {
   static const subtract = "assets/images/subtract.png";
   static const modal = "assets/images/modal.png";
   static const bottomBar = "assets/images/bottom_bar.png";
+  static const rectangle = "assets/images/rectangle.png";
+
   static const fastWind = "assets/images/fastwind.png";
   static const fastRain = "assets/images/fastrain.png";
   static const midRain = "assets/images/midrain.png";

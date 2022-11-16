@@ -4,10 +4,10 @@ import 'package:weather/models/forecast_model.dart';
 import 'package:weather/utils/colors.dart';
 import 'package:weather/utils/icons.dart';
 
-import 'package:weather/widgets/background.dart';
-import 'package:weather/widgets/bottom_info.dart';
+import 'package:weather/screens/home/widgets/background.dart';
+import 'package:weather/screens/home/widgets/bottom_info.dart';
 import 'package:weather/widgets/custom_bnb.dart';
-import 'package:weather/widgets/weather.dart';
+import 'package:weather/screens/home/widgets/weather.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

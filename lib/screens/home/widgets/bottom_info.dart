@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:weather/models/forecast_model.dart';
 import 'package:weather/utils/colors.dart';
@@ -65,54 +63,8 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
                     color: MyColors.black.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(10)),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      setState(() => counter = 0);
-                      _scrollToCounter();
-                    },
-                    child: Text(
-                      "Hourly Forecast",
-                      style: TextStyle(
-                          color: MyColors.C_EBEBF5.withOpacity(0.6),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() => counter = maxCount - 1);
-                      _scrollToCounter();
-                    },
-                    child: Text(
-                      "Weekly Forecast",
-                      style: TextStyle(
-                          color: MyColors.C_EBEBF5.withOpacity(0.6),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                height: 2,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: MyColors.white.withOpacity(0.2), width: 1),
-                    gradient: LinearGradient(
-                      colors: [
-                        MyColors.C_48319D.withOpacity(0.2),
-                        MyColors.white.withOpacity(0.2),
-                      ],
-                      begin: Alignment.center,
-                      end: Alignment.topLeft,
-                      // stops: [0.4, 0.9],
-                    ),
-                    borderRadius: BorderRadius.circular(30)),
-              ),
+              getForecastButton(),
+              const CustomLineWidget(),
               const SizedBox(
                 height: 10,
               ),
@@ -138,6 +90,40 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
         ),
       ),
     ]);
+  }
+
+  Row getForecastButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        TextButton(
+          onPressed: () {
+            setState(() => counter = 0);
+            _scrollToCounter();
+          },
+          child: Text(
+            "Hourly Forecast",
+            style: TextStyle(
+                color: MyColors.C_EBEBF5.withOpacity(0.6),
+                fontSize: 15,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            setState(() => counter = maxCount - 1);
+            _scrollToCounter();
+          },
+          child: Text(
+            "Weekly Forecast",
+            style: TextStyle(
+                color: MyColors.C_EBEBF5.withOpacity(0.6),
+                fontSize: 15,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
+    );
   }
 
   int counter = -1;
@@ -223,4 +209,30 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
         child: child,
         highlightColor: Colors.black.withOpacity(0.1),
       );
+}
+
+class CustomLineWidget extends StatelessWidget {
+  const CustomLineWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 2,
+      decoration: BoxDecoration(
+          border: Border.all(color: MyColors.white.withOpacity(0.2), width: 1),
+          gradient: LinearGradient(
+            colors: [
+              MyColors.C_48319D.withOpacity(0.2),
+              MyColors.white.withOpacity(0.2),
+            ],
+            begin: Alignment.center,
+            end: Alignment.topLeft,
+            // stops: [0.4, 0.9],
+          ),
+          borderRadius: BorderRadius.circular(30)),
+    );
+  }
 }
