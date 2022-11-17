@@ -39,5 +39,17 @@ class SearchCountryModel {
         gradus: "20°",
         weatherStatus: "Partly Cloudy",
         temp: "H:24°  L:18°°"),
+    SearchCountryModel(
+        country: "Tennessee, United States",
+        iconImage: MyIcons.tornado,
+        gradus: "23°",
+        weatherStatus: "Tornado",
+        temp: "H:26°  L:16°"),
+    SearchCountryModel(
+        country: "Taipei, Taiwan",
+        iconImage: MyIcons.midRain,
+        gradus: "23°",
+        weatherStatus: "Showers",
+        temp: "H:26°  L:-16°"),
   ];
 }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weather/models/country_model.dart';
@@ -15,31 +17,23 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final controller = TextEditingController();
+  final List<SearchCountryModel> country = SearchCountryModel.countriesInfo;
+  String query = '';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    List<SearchCountryModel> country = SearchCountryModel.countriesInfo;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Weather",
-          style: TextStyle(
-              fontWeight: FontWeight.w400, fontSize: 25, color: Colors.white),
-        ),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
-            },
-            icon: SvgPicture.asset(MyIcons.arrowBack)),
-        actions: [
-          IconButton(
-              onPressed: () {}, icon: SvgPicture.asset(MyIcons.rightIcon))
-        ],
-        backgroundColor: MyColors.C_2E335A,
-        elevation: 0,
-      ),
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: _appBar(),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -53,6 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         child: ListView.builder(
+          reverse: true,
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           itemCount: country.length,
@@ -72,5 +67,105 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
+  }
+
+  PreferredSize _appBar() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(130),
+      child: Stack(children: [
+        ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                gradient: const LinearGradient(
+                  colors: [
+                    MyColors.C_2E335A,
+                    MyColors.C_1C1B33,
+                  ],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  stops: [1.9, 2.9],
+                ),
+              ),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen()));
+                              },
+                              icon: SvgPicture.asset(MyIcons.arrowBack)),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 220),
+                            child: Text(
+                              "Weather",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 25,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: SvgPicture.asset(MyIcons.rightIcon))
+                        ],
+                      ),
+                      Container(
+                        height: 50,
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        child: TextField(
+                          controller: controller,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: MyColors.brightGray.withOpacity(0.6),
+                            ),
+                            fillColor: MyColors.C_2E335A.withOpacity(0.9),
+                            filled: true,
+                            hintText: "Search for a city or airport",
+                            hintStyle: TextStyle(
+                              color: MyColors.brightGray.withOpacity(0.6),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                  color: MyColors.C_2E335A.withOpacity(0.1)),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: MyColors.C_2E335A),
+                            ),
+                          ),
+                          onChanged: searchCountry,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  void searchCountry(String query) {
+    final suggestions = country.where((element) {
+      final countryName = country[0].country.toLowerCase();
+      final input = query.toLowerCase();
+      return countryName.contains(input);
+    }).toList();
+    setState(() => country[0] = suggestions[0]);
   }
 }
