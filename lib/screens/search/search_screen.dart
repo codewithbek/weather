@@ -31,9 +31,6 @@ class _SearchScreenState extends State<SearchScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: _appBar(),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -46,25 +43,30 @@ class _SearchScreenState extends State<SearchScreen> {
             stops: [0.4, 0.9],
           ),
         ),
-        child: ListView.builder(
-          reverse: true,
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          itemCount: country.length,
-          itemBuilder: (context, index) {
-            return CustomContainer(
-              height: height,
-              width: width,
-              temp: country[index].temp,
-              country: country[index].country,
-              iconImage: country[index].iconImage,
-              statusWeather: country[index].weatherStatus,
-              gradus: country[index].gradus,
-              color1: MyColors.C_5936B4,
-              color2: MyColors.C_362A84,
-            );
-          },
-        ),
+        child: Stack(children: [
+          ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+            itemCount: country.length,
+            itemBuilder: (context, index) {
+              return CustomContainer(
+                height: height,
+                width: width,
+                temp: country[index].temp,
+                country: country[index].country,
+                iconImage: country[index].iconImage,
+                statusWeather: country[index].weatherStatus,
+                gradus: country[index].gradus,
+                color1: MyColors.C_5936B4,
+                color2: MyColors.C_362A84,
+              );
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          _appBar(),
+        ]),
       ),
     );
   }
@@ -121,29 +123,31 @@ class _SearchScreenState extends State<SearchScreen> {
                         ],
                       ),
                       Container(
-                        height: 50,
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        height: 45,
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: TextField(
+                          style: const TextStyle(color: Colors.white),
                           controller: controller,
                           decoration: InputDecoration(
                             prefixIcon: Icon(
                               Icons.search,
                               color: MyColors.brightGray.withOpacity(0.6),
                             ),
-                            fillColor: MyColors.C_2E335A.withOpacity(0.9),
+                            fillColor: MyColors.C_2E335A,
                             filled: true,
                             hintText: "Search for a city or airport",
                             hintStyle: TextStyle(
                               color: MyColors.brightGray.withOpacity(0.6),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(
-                                  color: MyColors.C_2E335A.withOpacity(0.1)),
+                                  color: MyColors.white.withOpacity(0.2)),
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: MyColors.C_2E335A),
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: MyColors.white.withOpacity(0.2)),
                             ),
                           ),
                           onChanged: searchCountry,

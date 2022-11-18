@@ -28,9 +28,9 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height * 0.22,
+      height: height * 0.24,
       width: width * 0.97,
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 25),
       child: Stack(
         children: [
           CustomPaint(
@@ -41,7 +41,7 @@ class CustomContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 25, left: 10),
+                padding: const EdgeInsets.only(top: 25, left: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -53,7 +53,7 @@ class CustomContainer extends StatelessWidget {
                           fontSize: 64),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     Text(
                       temp,
