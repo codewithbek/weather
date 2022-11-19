@@ -18,6 +18,7 @@ class MyIcons {
   // .svg
   static const menu = "assets/svg/menu.svg";
   static const arrowBack = "assets/svg/chevron.svg";
+  static const arrowRight = "assets/svg/chevron2.svg";
   static const location = "assets/svg/location.svg";
   static const search = "assets/svg/search.svg";
   static const plus = "assets/svg/plus.svg";

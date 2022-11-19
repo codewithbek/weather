@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/screens/home/home_screen.dart';
+import 'package:weather/screens/home/widgets/grid_info.dart';
 import 'package:weather/utils/colors.dart';
 
 void main() {

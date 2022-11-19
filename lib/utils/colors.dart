@@ -20,6 +20,10 @@ class MyColors {
   static const C_362A84 = Color(0xFF362A84);
   static const C_2E335A = Color(0xFF2E335A);
   static const C_1C1B33 = Color(0xFF1C1B33);
+  static const C_11F1D47 = Color(0xFF1F1D47);
+  static const C_C159EC = Color(0xFFC159EC);
+    static const C_38383A = Color(0xFF38383A);
+
   // angular
   static const C_612FAB = Color(0xFF612FAB);
 

@@ -1,7 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weather/models/forecast_model.dart';
+import 'package:weather/screens/home/widgets/air_quality.dart';
+import 'package:weather/screens/home/widgets/grid_info.dart';
 import 'package:weather/screens/search/widgets/check_height.dart';
 import 'package:weather/utils/colors.dart';
 import 'package:weather/utils/icons.dart';
@@ -47,7 +50,7 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _height = CheckHeigth.isHeight ? 680 : 400;
+    _height = CheckHeigth.isHeight ? 680 : 335;
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 8),
@@ -72,45 +75,59 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
                 // stops: [0.4, 0.5, 0.9],
               ),
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 5,
-                    width: 60,
-                    decoration: BoxDecoration(
-                        color: MyColors.black.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                  getForecastButton(),
-                  const CustomLineWidget(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 150,
-                    child: ListView(
-                      scrollDirection: scrollDirection,
-                      controller: controller,
-                      physics: const BouncingScrollPhysics(),
-                      children: List.generate(
-                        ForecastModel.hourlyForecasts.length,
-                        (index) => _getRow(
-                            index: index,
-                            selectedColor: MyColors.C_48319D,
-                            unSelectedColor: MyColors.C_48319D.withOpacity(0.2),
-                            otherDt: widget.forecast[index].hour,
-                            firstDt: widget.forecast[0].hour),
-                      ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 8),
+                    child: Container(
+                      height: 5,
+                      width: 60,
+                      margin: EdgeInsets.only(top: 20),
+                      decoration: BoxDecoration(
+                          color: MyColors.black.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10)),
                     ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 960,
+                  child: ListView(
+                    children: [
+                      getForecastButton(),
+                      const CustomLineWidget(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.18,
+                        child: ListView(
+                          scrollDirection: scrollDirection,
+                          controller: controller,
+                          physics: const BouncingScrollPhysics(),
+                          children: List.generate(
+                            ForecastModel.hourlyForecasts.length,
+                            (index) => _getRow(
+                                index: index,
+                                selectedColor: MyColors.C_48319D,
+                                unSelectedColor:
+                                    MyColors.C_48319D.withOpacity(0.2),
+                                otherDt: widget.forecast[index].hour,
+                                firstDt: widget.forecast[0].hour),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AirQualityWidget(),
+                      SizedBox(height: 1000, child: GridInfoWidget())
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ),
@@ -172,7 +189,6 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
           margin: const EdgeInsets.only(
             left: 12,
           ),
-          height: 146,
           width: 60,
           decoration: BoxDecoration(
               boxShadow: [
