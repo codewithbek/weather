@@ -133,7 +133,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               Icons.search,
                               color: MyColors.brightGray.withOpacity(0.6),
                             ),
-                            fillColor: MyColors.C_2E335A,
+                            fillColor: MyColors.C_2E335A.withOpacity(0.6),
                             filled: true,
                             hintText: "Search for a city or airport",
                             hintStyle: TextStyle(

@@ -1,15 +1,22 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:weather/models/forecast_model.dart';
+import 'package:weather/screens/search/widgets/check_height.dart';
 import 'package:weather/utils/colors.dart';
 import 'package:weather/utils/icons.dart';
 import 'dart:math' as math;
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class BottomInfoWidget extends StatefulWidget {
-  const BottomInfoWidget({
-    Key? key,
-    required this.forecast,
-  }) : super(key: key);
+  double height;
+  final void Function(TapUpDetails)? ontap;
+  BottomInfoWidget(
+      {Key? key,
+      required this.ontap,
+      required this.forecast,
+      required this.height})
+      : super(key: key);
 
   final List<ForecastModel> forecast;
 
@@ -25,6 +32,7 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
 
   late AutoScrollController controller;
   late List<List<int>> randomList;
+  double _height = 400;
 
   @override
   void initState() {
@@ -39,57 +47,75 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(alignment: Alignment.bottomCenter, children: [
-      Container(
-        height: MediaQuery.of(context).size.height / 2.7,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(44.0),
-          image: const DecorationImage(
-              image: AssetImage(MyIcons.modal), fit: BoxFit.cover),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 5,
+    _height = CheckHeigth.isHeight ? 680 : 400;
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 8),
+        child: GestureDetector(
+          onTapUp: widget.ontap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            height: _height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: MyColors.white.withOpacity(0.6),
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+              gradient: LinearGradient(
+                colors: [
+                  MyColors.C_C427FB.withOpacity(0.26),
+                  const Color(0xFF2E335A).withOpacity(0.26),
+                  const Color(0xFF1C1B33).withOpacity(0.26),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                // stops: [0.4, 0.5, 0.9],
               ),
-              Container(
-                height: 5,
-                width: 48,
-                decoration: BoxDecoration(
-                    color: MyColors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-              getForecastButton(),
-              const CustomLineWidget(),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 150,
-                child: ListView(
-                  scrollDirection: scrollDirection,
-                  controller: controller,
-                  physics: const BouncingScrollPhysics(),
-                  children: List.generate(
-                    ForecastModel.hourlyForecasts.length,
-                    (index) => _getRow(
-                        index: index,
-                        selectedColor: MyColors.C_48319D,
-                        unSelectedColor: MyColors.C_48319D.withOpacity(0.2),
-                        otherDt: widget.forecast[index].hour,
-                        firstDt: widget.forecast[0].hour),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 15,
                   ),
-                ),
-              )
-            ],
+                  Container(
+                    height: 5,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        color: MyColors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  getForecastButton(),
+                  const CustomLineWidget(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 150,
+                    child: ListView(
+                      scrollDirection: scrollDirection,
+                      controller: controller,
+                      physics: const BouncingScrollPhysics(),
+                      children: List.generate(
+                        ForecastModel.hourlyForecasts.length,
+                        (index) => _getRow(
+                            index: index,
+                            selectedColor: MyColors.C_48319D,
+                            unSelectedColor: MyColors.C_48319D.withOpacity(0.2),
+                            otherDt: widget.forecast[index].hour,
+                            firstDt: widget.forecast[0].hour),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
-    ]);
+    );
   }
 
   Row getForecastButton() {
