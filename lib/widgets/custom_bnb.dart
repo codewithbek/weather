@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weather/screens/search/search_screen.dart';
+import 'package:weather/screens/search/widgets/check_height.dart';
 import 'package:weather/utils/colors.dart';
 import 'package:weather/utils/icons.dart';
 
@@ -14,8 +15,9 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        bottom: 0,
+    return AnimatedPositioned(
+        duration: Duration(milliseconds: 400),
+        bottom: CheckHeigth.isHeight == false ? 0 : -100,
         left: 0,
         child: SizedBox(
           width: size.width,

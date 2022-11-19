@@ -62,8 +62,9 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: MyColors.white.withOpacity(0.6),
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+              borderRadius: CheckHeigth.isHeight
+                  ? null
+                  : const BorderRadius.vertical(top: Radius.circular(50)),
               gradient: LinearGradient(
                 colors: [
                   MyColors.C_C427FB.withOpacity(0.26),
@@ -75,58 +76,66 @@ class _BottomInfoWidgetState extends State<BottomInfoWidget> {
                 // stops: [0.4, 0.5, 0.9],
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Stack(
               children: [
-                ClipRRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 8),
-                    child: Container(
-                      height: 5,
-                      width: 60,
-                      margin: EdgeInsets.only(top: 20),
-                      decoration: BoxDecoration(
-                          color: MyColors.black.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(10)),
+                Positioned.fill(
+                  top: 10,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: ClipRRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 8),
+                        child: Container(
+                          height: 5,
+                          width: 60,
+                          // margin: EdgeInsets.only(top: 20),
+                          decoration: BoxDecoration(
+                              color: MyColors.black.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 960,
-                  child: ListView(
-                    children: [
-                      getForecastButton(),
-                      const CustomLineWidget(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.18,
-                        child: ListView(
-                          scrollDirection: scrollDirection,
-                          controller: controller,
-                          physics: const BouncingScrollPhysics(),
-                          children: List.generate(
-                            ForecastModel.hourlyForecasts.length,
-                            (index) => _getRow(
-                                index: index,
-                                selectedColor: MyColors.C_48319D,
-                                unSelectedColor:
-                                    MyColors.C_48319D.withOpacity(0.2),
-                                otherDt: widget.forecast[index].hour,
-                                firstDt: widget.forecast[0].hour),
+                ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        getForecastButton(),
+                        const CustomLineWidget(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          child: ListView(
+                            scrollDirection: scrollDirection,
+                            controller: controller,
+                            physics: const BouncingScrollPhysics(),
+                            children: List.generate(
+                              ForecastModel.hourlyForecasts.length,
+                              (index) => _getRow(
+                                  index: index,
+                                  selectedColor: MyColors.C_48319D,
+                                  unSelectedColor:
+                                      MyColors.C_48319D.withOpacity(0.2),
+                                  otherDt: widget.forecast[index].hour,
+                                  firstDt: widget.forecast[0].hour),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      AirQualityWidget(),
-                      SizedBox(height: 1000, child: GridInfoWidget())
-                    ],
-                  ),
-                )
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const AirQualityWidget(),
+                        const GridInfoWidget()
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

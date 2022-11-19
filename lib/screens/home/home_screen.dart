@@ -32,15 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
               left: 0,
               right: 0,
               duration: const Duration(milliseconds: 400),
-              child: BackgroundWidget()),
+              child: const BackgroundWidget()),
           const WeatherView(),
           AnimatedPositioned(
               bottom: 0,
-              duration: Duration(seconds: 1),
+              duration: const Duration(seconds: 1),
               child: BottomInfoWidget(
                   ontap: (detail) {
                     CheckHeigth.isHeight = !CheckHeigth.isHeight;
-                    print(CheckHeigth.isHeight);
                     setState(() {});
                   },
                   height: _height,
